@@ -43,6 +43,8 @@ public class Transaction {
      /** the profit of a given prefix in this transaction (initially 0 if a transaction is not projected)*/
      int prefixUtility;
 
+	int revisedTransactionUtility;
+
      /**
       * Constructor of a transaction
       * @param items the items in the transaction
@@ -55,6 +57,7 @@ public class Transaction {
     	this.transactionUtility = transactionUtility;
     	this.offset = 0;
     	this.prefixUtility = 0;
+    	this.revisedTransactionUtility = 0;
     }
     
     
@@ -86,6 +89,11 @@ public class Transaction {
     	// remember the offset for this projected transaction
     	this.offset = offsetE+1;
     }
+
+	//Get Length of current Transaction
+	public int getTransactionLength(){
+		return items.length;
+	}
     
     /**
      * Get a string representation of this transaction

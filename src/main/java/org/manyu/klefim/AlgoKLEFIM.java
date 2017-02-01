@@ -153,6 +153,8 @@ public class AlgoKLEFIM {
 		
 		// read the input file
 		Dataset dataset = new Dataset(inputPath, maximumTransactionCount);
+		dataset.pruneSmallTransactions(minLen);
+		dataset.calculateRevisedTransactionUtility(maxLen);
 
 		// save minUtil value selected by the user
 		this.minUtil = minUtil;
@@ -760,7 +762,7 @@ public class AlgoKLEFIM {
 			// for each item
 			for(Integer item: transaction.getItems()) {
 				// we add the transaction utility to the utility bin of the item
-				utilityBinArrayLU[item] += transaction.transactionUtility;
+				utilityBinArrayLU[item] += transaction.revisedTransactionUtility;
 			}
 		}
 	}

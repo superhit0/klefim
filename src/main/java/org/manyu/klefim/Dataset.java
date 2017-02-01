@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 /* This file is copyright (c) 2012-2015 Souleymane Zida, Philippe Fournier-Viger, Alan Souza
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
@@ -144,6 +146,36 @@ public class Dataset {
         }
         // Return the string
         return datasetContent.toString();
+    }
+
+    //Remove transactions from database that are smaller than minLength
+    public void pruneSmallTransactions(int minLength){
+        for(int i=0;i<transactions.size();i++){
+            if(transactions.get(i).getTransactionLength()<minLength){
+                transactions.remove(i);
+                i--;
+            }
+        }
+    }
+
+    public void calculateRevisedTransactionUtility(int maxLength) {
+        for(Transaction transaction:transactions){
+            PriorityQueue<Integer> pq=new PriorityQueue<>(new Comparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    if(o1.intValue()>=o2.intValue())
+                        return 0;
+                    else
+                        return 1;
+                }
+            });
+            for(int i=0;i<transaction.utilities.length;i++){
+                pq.add(transaction.utilities[i]);
+            }
+            for(int i=0;i<transaction.getItems().length&&i<maxLength;i++){
+                transaction.revisedTransactionUtility+=pq.poll();
+            }
+        }
     }
 
 }
