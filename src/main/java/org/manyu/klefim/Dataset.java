@@ -160,6 +160,10 @@ public class Dataset {
 
     public void calculateRevisedTransactionUtility(int maxLength) {
         for(Transaction transaction:transactions){
+            if(transaction.getItems().length<=maxLength){
+                transaction.revisedTransactionUtility=transaction.transactionUtility;
+                continue;
+            }
             PriorityQueue<Integer> pq=new PriorityQueue<>(new Comparator<Integer>() {
                 @Override
                 public int compare(Integer o1, Integer o2) {
